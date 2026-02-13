@@ -1,0 +1,37 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "buildRpcDemo", // 任务名称，需和launch.json中的preLaunchTask一致
+            "type": "shell",
+            "command": "g++", // 编译命令，C++程序替换为g++
+            "args": [
+                "-std=c++11",
+                "-Wall",
+                "-Wno-deprecated",
+                "-Wno-unused-but-set-variable",
+                "-g", // 必须加：生成调试信息，否则调试时无法打断点
+                "${file}", // 当前打开的源文件（如main.c）
+                "${workspaceFolder}/rpcdemo/common/*.cc",
+                "${workspaceFolder}/rpcdemo/net/*.cc",
+                "${workspaceFolder}/rpcdemo/net/coder/*.cc",
+                "${workspaceFolder}/rpcdemo/net/rpc/*.cc",
+                "${workspaceFolder}/rpcdemo/net/tcp/*.cc",                
+                "/lib/x86_64-linux-gnu/libprotobuf.a",
+                "-I",
+                "${workspaceFolder}",
+                "-o", // 指定输出可执行文件
+                "${workspaceFolder}/main" // 可执行文件路径/名称，可自定义（比如改为a.out）
+            ],
+            "options": {
+                "cwd": "${fileDirname}" // 编译时的工作目录（源文件所在目录）
+            },
+            "problemMatcher": ["$gcc"], // 识别gcc/g++的编译错误，在VS Code中高亮显示
+            "group": {
+                "kind": "build",
+                "isDefault": true // 设为默认构建任务，按Ctrl+Shift+B可快速执行
+            },
+            "detail": "调试前自动编译：使用gcc编译当前源文件，生成带调试信息的可执行文件"
+        }
+    ]
+}
